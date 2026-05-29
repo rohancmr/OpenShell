@@ -1764,7 +1764,18 @@ mod tests {
             .iter()
             .map(|profile| profile.id.as_str())
             .collect::<Vec<_>>();
-        assert_eq!(ids, vec!["claude-code", "codex", "github", "nvidia"]);
+        assert_eq!(
+            ids,
+            vec![
+                "claude-code",
+                "codex",
+                "copilot",
+                "cursor",
+                "github",
+                "nvidia",
+                "pypi"
+            ]
+        );
 
         let github = response
             .profiles
@@ -1890,8 +1901,8 @@ mod tests {
             &state,
             Request::new(ImportProviderProfilesRequest {
                 profiles: vec![ProviderProfileImportItem {
-                    profile: Some(custom_profile("copilot")),
-                    source: "copilot.yaml".to_string(),
+                    profile: Some(custom_profile("opencode")),
+                    source: "opencode.yaml".to_string(),
                 }],
             }),
         )
@@ -1905,15 +1916,15 @@ mod tests {
         let imported = handle_get_provider_profile(
             &state,
             Request::new(GetProviderProfileRequest {
-                id: "copilot".to_string(),
+                id: "opencode".to_string(),
             }),
         )
         .await
         .unwrap()
         .into_inner()
         .profile
-        .expect("copilot profile should be returned");
-        assert_eq!(imported.id, "copilot");
+        .expect("opencode profile should be returned");
+        assert_eq!(imported.id, "opencode");
     }
 
     #[tokio::test]
